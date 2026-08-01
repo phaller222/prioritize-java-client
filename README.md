@@ -19,7 +19,7 @@ sources are never hand-written, so the client always matches the contract of the
 
 ```xml
 <dependency>
-    <groupId>io.github.phaller222</groupId>
+    <groupId>de.hallerweb</groupId>
     <artifactId>prioritize-java-client</artifactId>
     <version>1.2.0</version>
 </dependency>
@@ -36,9 +36,9 @@ per-resource API classes (one per tag: `UsersApi`, `ProjectsApi`, `TasksApi`, `R
 ### Basic auth (default / dev profile)
 
 ```java
-import io.github.phaller222.prioritize.client.invoker.ApiClient;
-import io.github.phaller222.prioritize.client.api.UsersApi;
-import io.github.phaller222.prioritize.client.model.UserDTO;
+import de.hallerweb.enterprise.prioritize.client.invoker.ApiClient;
+import de.hallerweb.enterprise.prioritize.client.api.UsersApi;
+import de.hallerweb.enterprise.prioritize.client.model.UserDTO;
 
 ApiClient client = new ApiClient();
 client.setBasePath("http://localhost:8080"); // default; the spec paths already include /api/v1
@@ -99,6 +99,6 @@ released ones. `generate.sh` applies this pin automatically.
 
 ## What's inside
 
-- `io.github.phaller222.prioritize.client.api` — one `*Api` class per resource/tag.
-- `io.github.phaller222.prioritize.client.model` — the request/response DTOs.
-- `io.github.phaller222.prioritize.client.invoker` — `ApiClient` and support classes.
+- `de.hallerweb.enterprise.prioritize.client.api` — one `*Api` class per resource/tag.
+- `de.hallerweb.enterprise.prioritize.client.model` — the request/response DTOs.
+- `de.hallerweb.enterprise.prioritize.client.invoker` — `ApiClient` and support classes.

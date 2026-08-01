@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.phaller222</groupId>
+    <groupId>de.hallerweb</groupId>
     <artifactId>prioritize-java-client</artifactId>
     <version>1.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -114,9 +114,9 @@
                             <inputSpec>${project.basedir}/openapi/openapi.json</inputSpec>
                             <generatorName>java</generatorName>
                             <library>resttemplate</library>
-                            <apiPackage>io.github.phaller222.prioritize.client.api</apiPackage>
-                            <modelPackage>io.github.phaller222.prioritize.client.model</modelPackage>
-                            <invokerPackage>io.github.phaller222.prioritize.client.invoker</invokerPackage>
+                            <apiPackage>de.hallerweb.enterprise.prioritize.client.api</apiPackage>
+                            <modelPackage>de.hallerweb.enterprise.prioritize.client.model</modelPackage>
+                            <invokerPackage>de.hallerweb.enterprise.prioritize.client.invoker</invokerPackage>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
                             <generateApiDocumentation>true</generateApiDocumentation>
