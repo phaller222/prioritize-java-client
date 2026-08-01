@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.github.phaller222</groupId>
+    <artifactId>prioritize-java-client</artifactId>
+    <version>1.2.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Prioritize Java Client</name>
+    <description>Official Java client library for the Prioritize REST API (/api/v1), generated from the
+        frozen OpenAPI specification. The client version tracks the API version (1.x client ↔ 1.x API).
+    </description>
+    <url>https://github.com/phaller222/Prioritize</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Peter Haller</name>
+            <url>https://github.com/phaller222</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/phaller222/prioritize-java-client.git</connection>
+        <developerConnection>scm:git:https://github.com/phaller222/prioritize-java-client.git</developerConnection>
+        <url>https://github.com/phaller222/prioritize-java-client</url>
+    </scm>
+
+    <properties>
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!--
+            The client is spec-first: sources are GENERATED at build time from openapi/openapi.json
+            (a copy of the frozen docs/openapi.json released from the main Prioritize repo) and are
+            never hand-edited. To update the client, replace openapi/openapi.json with the next
+            released spec and rebuild.
+        -->
+        <openapi-generator.version>7.10.0</openapi-generator.version>
+        <spring.version>6.2.1</spring.version>
+        <jackson.version>2.18.2</jackson.version>
+        <swagger-annotations.version>2.2.25</swagger-annotations.version>
+        <jakarta-annotation.version>2.1.1</jakarta-annotation.version>
+    </properties>
+
+    <dependencies>
+        <!-- resttemplate library -> Spring's RestTemplate + HttpComponents-free JDK transport -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- JSON (de)serialization -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- Schema annotations on the generated models -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
+
+        <!-- @jakarta.annotation.Generated on generated sources (useJakartaEe=true) -->
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-prioritize-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/openapi/openapi.json</inputSpec>
+                            <generatorName>java</generatorName>
+                            <library>resttemplate</library>
+                            <apiPackage>io.github.phaller222.prioritize.client.api</apiPackage>
+                            <modelPackage>io.github.phaller222.prioritize.client.model</modelPackage>
+                            <invokerPackage>io.github.phaller222.prioritize.client.invoker</invokerPackage>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <generateApiDocumentation>true</generateApiDocumentation>
+                            <generateModelDocumentation>true</generateModelDocumentation>
+                            <configOptions>
+                                <useJakartaEe>true</useJakartaEe>
+                                <openApiNullable>false</openApiNullable>
+                                <useBeanValidation>false</useBeanValidation>
+                                <serializationLibrary>jackson</serializationLibrary>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
