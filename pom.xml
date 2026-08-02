@@ -13,7 +13,7 @@
     <description>Official Java client library for the Prioritize REST API (/api/v1), generated from the
         frozen OpenAPI specification. The client version tracks the API version (1.x client ↔ 1.x API).
     </description>
-    <url>https://github.com/phaller222/Prioritize</url>
+    <url>https://github.com/phaller222/prioritize-java-client</url>
 
     <licenses>
         <license>
@@ -25,6 +25,7 @@
     <developers>
         <developer>
             <name>Peter Haller</name>
+            <email>peter.haller@prioritize-iot.de</email>
             <url>https://github.com/phaller222</url>
         </developer>
     </developers>
@@ -46,6 +47,10 @@
             released spec and rebuild.
         -->
         <openapi-generator.version>7.10.0</openapi-generator.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+        <central-publishing-plugin.version>0.11.0</central-publishing-plugin.version>
         <spring.version>6.2.1</spring.version>
         <jackson.version>2.18.2</jackson.version>
         <swagger-annotations.version>2.2.25</swagger-annotations.version>
@@ -134,4 +139,85 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!--
+            Release profile: only active for a real Maven Central publish (mvn deploy -Prelease).
+            The plain build (mvn package / mvn install) stays fast and unsigned; sources-, javadoc-
+            and GPG-signed artifacts plus the Central Portal upload are produced only here.
+            Requires: a GPG key on the build machine and a <server id="central"> Portal token in
+            ~/.m2/settings.xml (see docs/PUBLISHING.md).
+        -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- -sources.jar (required by Maven Central) -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- -javadoc.jar (required by Maven Central); doclint off for generated sources -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <doclint>none</doclint>
+                            <quiet>true</quiet>
+                        </configuration>
+                    </plugin>
+
+                    <!-- GPG signatures (.asc) for every artifact -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Upload the signed bundle to the Central Portal -->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <!-- false: upload + validate, then publish manually in the Portal UI.
+                                 Flip to true once the first release has gone through cleanly. -->
+                            <autoPublish>false</autoPublish>
+                            <waitUntil>validated</waitUntil>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
