@@ -15,17 +15,18 @@ sources are never hand-written, so the client always matches the contract of the
 
 ## Coordinates
 
-> Not yet published to Maven Central. The intended coordinates are:
+Published on Maven Central:
 
 ```xml
 <dependency>
     <groupId>de.hallerweb</groupId>
     <artifactId>prioritize-java-client</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
-Until then, build and install it locally (see [Building](#building)).
+The client version tracks the Prioritize API release it was generated from, so `1.3.0` speaks the
+`1.3.0` contract.
 
 ## Usage
 
