@@ -21,12 +21,12 @@ Published on Maven Central:
 <dependency>
     <groupId>de.hallerweb</groupId>
     <artifactId>prioritize-java-client</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
 </dependency>
 ```
 
-The client version tracks the Prioritize API release it was generated from, so `1.3.0` speaks the
-`1.3.0` contract.
+The client version tracks the Prioritize API release it was generated from, so `1.3.1` speaks the
+`1.3.1` contract.
 
 ## Usage
 
