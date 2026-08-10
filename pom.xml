@@ -55,6 +55,8 @@
         <jackson.version>2.18.2</jackson.version>
         <swagger-annotations.version>2.2.25</swagger-annotations.version>
         <jakarta-annotation.version>2.1.1</jakarta-annotation.version>
+        <junit.version>6.0.3</junit.version>
+        <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
     </properties>
 
     <dependencies>
@@ -95,6 +97,24 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${jakarta-annotation.version}</version>
         </dependency>
+
+        <!--
+            Test scope only. The generated sources have no tests (generateApiTests/generateModelTests are
+            off on purpose) — this covers the single hand-written class, PrioritizeApiClient.
+            The launcher is declared explicitly so Surefire does not have to resolve it at runtime.
+        -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -103,6 +123,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
+            </plugin>
+
+            <!-- Pinned: Maven 3.8's default Surefire (2.12.4) cannot run JUnit 5/6 tests at all. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
 
             <plugin>
